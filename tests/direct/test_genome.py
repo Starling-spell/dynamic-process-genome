@@ -34,3 +34,17 @@ def test_evidence_bound_insert(direct_vm, direct_deploy, direct_alice):
                          "https://example.org/spec", digest, 0, int(time.time()) + 3600)
     assert c.get_space("ops")["version"] == 1
     assert '"decision":"APPLY"' in c.get_mutation("ops", "transform-1")
+    with direct_vm.expect_revert("unique mutation"):
+        c.review_mutation("ops", "transform-1", "{}", "https://example.org/spec", digest, 1,
+                          int(time.time()) + 3600)
+    with direct_vm.expect_revert("current version"):
+        c.review_mutation("ops", "stale", "{}", "https://example.org/spec", digest, 0,
+                          int(time.time()) + 3600)
+    with direct_vm.expect_revert("bounded deadline"):
+        c.review_mutation("ops", "expired", "{}", "https://example.org/spec", digest, 1,
+                          int(time.time()) - 1)
+    with direct_vm.expect_revert("valid node references"):
+        bad_graph = {"nodes": c.get_space("ops")["nodes"],
+                     "edges": [{"source": "missing", "target": "output", "relation": "sequence"}]}
+        c.review_mutation("ops", "dangling", json.dumps(bad_graph), "https://example.org/spec", digest, 1,
+                          int(time.time()) + 3600)

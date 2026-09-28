@@ -7,3 +7,5 @@ Owners define a process graph and explicit invariants. A mutation includes a can
 `APPLY` advances the graph version and immutable mutation root. `REJECT` and `INCONCLUSIVE` are recorded without state advancement. Caller-supplied summaries and scores do not control the result.
 
 Workflow: `create_process_space → add_process_node → connect_process_nodes → review_mutation`. `review_insert_step` is a compact, equivalent entrypoint for replacing one sequence edge with two edges through a new step; it uses the same review and consensus path. The public demo specification is in `examples/process-spec.txt`.
+
+The finalized StudioNet deployment, hash-mismatch rejection, applied mutation, and source-byte verification are documented in [LIVE_PROOFS.md](LIVE_PROOFS.md).
