@@ -4,3 +4,4 @@ artifacts/
 .env
 .deps-check/
 .test-deps/
+.tooldeps/

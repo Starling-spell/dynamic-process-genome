@@ -1,0 +1,3 @@
+Process specification v1
+
+The input step must precede the output step. A transform step is permitted between input and output when both sequence edges are present. The transform must not bypass input or output. Output must not precede input.
